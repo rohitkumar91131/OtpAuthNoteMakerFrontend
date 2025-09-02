@@ -2,10 +2,12 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/AuthContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type FormDataType = {
   name: string;
-  dob: string;
+  dob: Date | null;
   email: string;
   otp: string;
 };
@@ -13,7 +15,7 @@ type FormDataType = {
 export default function Signup() {
   const [formData, setFormData] = useState<FormDataType>({
     name: "",
-    dob: "",
+    dob: null,
     email: "",
     otp: "",
   });
@@ -141,7 +143,7 @@ export default function Signup() {
         <h2 className="text-3xl font-bold">Sign up</h2>
         <p className="text-gray-500">Sign up to enjoy the feature of HD</p>
 
-        <div className="space-y-4 text-left">
+        <div className="space-y-4 ">
           <input
             type="text"
             name="name"
@@ -152,14 +154,13 @@ export default function Signup() {
             className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
-          <input
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            required
-            className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+         <DatePicker
+           selected={formData.dob}
+          onChange={(date: Date) => setFormData(prev => ({ ...prev, dob: date }))}
+          wrapperClassName="react-datepicker-wrapper w-full"
+          placeholderText="Select your date of birth"
+          className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
           <div>
             <input
