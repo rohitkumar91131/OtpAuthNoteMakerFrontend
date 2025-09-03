@@ -1,7 +1,8 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/AuthContext";
+import { AlertTriangle } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
   const auth = useAuth() as { setIsLoginPageInTheWindow?: (v: boolean) => void } | undefined;
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSendOtp = async () => {
     if (!isValidEmail(email)) {
@@ -59,7 +60,7 @@ export default function Login() {
       const data = await res.json();
       if (data.success) {
         toast.success(data.msg);
-        await login(); // login after OTP verification
+        await login();
       } else {
         toast.error(data.msg || "Invalid OTP");
       }
@@ -74,7 +75,7 @@ export default function Login() {
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/login`, {
         method: "POST",
-        credentials: "include", // send cookies automatically
+        credentials: "include",
       });
       const data = await res.json();
       if (data.success) {
@@ -144,7 +145,12 @@ export default function Login() {
           )}
         </div>
 
-        <p className="text-gray-600 text-sm">
+        <div className="flex items-center gap-2 bg-yellow-100 text-yellow-800 p-3 rounded-lg text-sm mt-4 justify-center">
+          <AlertTriangle className="w-5 h-5" />
+          <span>Please make sure your browser allows third-party cookies for this app.</span>
+        </div>
+
+        <p className="text-gray-600 text-sm mt-2">
           Don’t have an account?{" "}
           <span
             onClick={() => auth?.setIsLoginPageInTheWindow?.(false)}
