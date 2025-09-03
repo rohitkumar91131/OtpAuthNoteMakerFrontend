@@ -19,7 +19,7 @@ export default function App(){
       />
        <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/notes" element={<Note/>} />
+          <Route path="/:notes" element={<Note/>} />
        </Routes>   
        </AuthProvider>
     </BrowserRouter>
