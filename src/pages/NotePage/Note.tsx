@@ -10,7 +10,7 @@ const Note = () => {
   useEffect(() => {
     const checkAccess = async () => {
       try {
-        const res = await fetch("/verify", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/verify`, {
           method: "GET",
           credentials: "include"
         });
